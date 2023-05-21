@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    JBoss, Home of Professional Open Source
+    Copyright Red Hat, Inc., and individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+                 version="2.0">
+    <description>AeroGear Unified Push Server Model API</description>
+    <package>org.jboss.aerogear.unifiedpush.api</package>
+
+    <mapped-superclass class="BaseModel" access="FIELD">
+        <attributes>
+            <id name="id"/>
+        </attributes>
+    </mapped-superclass>
+    <mapped-superclass class="APNSVariant" access="FIELD">
+        <attributes>
+            <basic name="production">
+                <column name="production" nullable="false" />
+            </basic>
+        </attributes>
+    </mapped-superclass>
+
+    <entity class="Variant" access="PROPERTY">
+        <table name="variant"/>
+        <inheritance strategy="JOINED"/>
+        <discriminator-column name="VARIANT_TYPE" discriminator-type="STRING"/>
+        <attributes>
+            <basic name="name">
+                <column name="name" length="255"/>
+            </basic>
+            <basic name="description">
+                <column name="description" length="255"/>
+            </basic>
+            <basic name="variantID">
+                <column name="api_key"/>
+            </basic>
+            <basic name="secret">
+                <column name="secret"/>
+            </basic>
+            <basic name="developer">
+                <column name="developer"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="iOSTokenVariant" access="FIELD">
+        <table name="ios_token_variant"/>
+        <discriminator-value>ios_token</discriminator-value>
+        <attributes>
+            <basic name="certificateData">
+                <column name="cert_data" length="100000"/>
+            </basic>
+
+        </attributes>
+    </entity>
+    <entity class="iOSVariant" access="FIELD">
+        <table name="ios_variant"/>
+        <discriminator-value>ios</discriminator-value>
+        <attributes>
+            <basic name="certificateData">
+                <column name="cert_data" length="100000"/>
+            </basic>
+            <basic name="production">
+                <column name="production" nullable="false" />
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="AndroidVariant" access="FIELD">
+        <table name="android_variant"/>
+        <discriminator-value>android</discriminator-value>
+        <attributes>
+            <basic name="googleKey">
+                <column name="google_key" length="255" nullable="false"/>
+            </basic>
+            <basic name="projectNumber">
+                <column name="project_number" length="255"/>
+            </basic>
+        </attributes>
+    </entity>
+
+    <entity class="PushApplication" access="FIELD">
+        <table name="push_application"/>
+        <attributes>
+            <basic name="name">
+                <column name="name" length="255" nullable="false"/>
+            </basic>
+            <basic name="description">
+                <column name="description" length="255"/>
+            </basic>
+            <basic name="pushApplicationID">
+                <column name="api_key"/>
+            </basic>
+            <basic name="masterSecret">
+                <column name="master_secret" />
+            </basic>
+            <basic name="developer">
+                <column name="developer" length="255"/>
+            </basic>
+            <one-to-many name="variants" fetch="EAGER">
+                <order-by>type asc</order-by>
+                <join-column name="push_application_id"/>
+                <cascade>
+                    <cascade-remove/>
+                </cascade>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity class="WebPushVariant" access="FIELD">
+        <table name="webpush_variant"/>
+        <discriminator-value>webpush</discriminator-value>
+        <attributes>
+            <basic name="publicKey">
+                <column name="public_key" length="255" nullable="false"/>
+            </basic>
+            <basic name="privateKey">
+                <column name="private_key" length="255" nullable="false"/>
+            </basic>
+            <basic name="alias">
+                <column name="alias" length="255" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

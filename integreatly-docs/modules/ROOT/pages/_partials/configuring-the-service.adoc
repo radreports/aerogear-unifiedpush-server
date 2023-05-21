@@ -1,0 +1,88 @@
+// For more information, see: https://redhat-documentation.github.io/modular-docs/
+
+[id='configuring-the-{context}']
+= Configuring the {unifiedpush-service} Service In A Local Development Environment
+
+This guide will help you to set up the {unifiedpush-service} service SDK in your App.
+
+.Procedure
+
+=== Importing the libraries
+
+
+. Install `cordova-plugin-aerogear-push`:
++
+[source,bash]
+----
+$ cordova plugin add @aerogear/cordova-plugin-aerogear-push
+----
+
+. Ionic Apps require an additional dependency, the link:https://ionicframework.com/docs/native/push/[Ionic Native Push Library^]
++
+[source,bash]
+----
+$ npm install --save @ionic-native/push
+----
+
+. Install the Unified Push Server package needed for device registration:
++
+[source,bash]
+----
+$ npm install --save @aerogear/push
+----
+
+
+
+=== Device registration
+
+To make use of the {unifiedpush-service} service, devices need to be registered by calling an endpoint of the server.
+The SDKs will handle this for you and the following steps will give you everything you need to start working with push notifications.
+
+.Using plain Cordova
+
+[source,javascript]
+----
+const push = PushNotification.init({
+    android: {},
+    ios: {
+        alert: "true",
+        badge: "true",
+        sound: "true"
+    }
+});
+
+// Registration handler
+push.on('registration', data => {
+    // PushRegistration is part of @aerogear/push
+    new PushRegistration().register(data.registrationId).then(() => {
+        // Registration with UPS successful, you can now send push notifications from the UPS UI
+    }).catch(err => {
+        // Error on device registration
+    });
+});
+----
+
+.Using Ionic
+
+[source,javascript]
+----
+import { Push } from "@ionic-native/push";
+
+const pushObject = new Push().init({
+    android: {},
+    ios: {
+        alert: true,
+        badge: true,
+        sound: true
+    }
+});
+
+pushObject.on('registration').subscribe(data => {
+    new PushRegistration().register(data.registrationId).then(() => {
+        // Registration with UPS successful, you can now send push notifications from the UPS UI
+    }).catch(err => {
+        //Error on device registration
+    });
+});
+----
+

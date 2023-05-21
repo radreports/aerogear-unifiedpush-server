@@ -1,0 +1,42 @@
+// For more information, see: https://redhat-documentation.github.io/modular-docs/
+
+[id='setting-up-sdk-{context}']
+= Setting up the {unifiedpush-service} Service SDK
+
+This section helps you to set up the {unifiedpush-service} service SDK in your App.
+It describes how to set up and initialize the {unifiedpush-service} service SDK.
+
+
+[tabs]
+====
+// tag::excludeDownstream[]
+Android::
++
+--
+A link:https://firebase.google.com/[Firebase account^].
+--
+iOS::
++
+--
+An link:https://developer.apple.com/library/archive/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1[APNs service^].
+--
+// end::excludeDownstream[]
+====
+
+.Procedure
+
+. Import the libraries
+. Install `cordova-plugin-aerogear-push`:
++
+[source,bash]
+----
+$ cordova plugin add @aerogear/cordova-plugin-aerogear-push
+----
+
+. Install the Unified Push Server package needed for device registration:
++
+[source,bash]
+----
+$ npm install --save @aerogear/push
+----
+

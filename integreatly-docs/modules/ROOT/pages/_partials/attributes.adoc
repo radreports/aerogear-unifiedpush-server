@@ -1,0 +1,14 @@
+:org-name: AeroGear
+
+:product-name: Push
+
+:showcase-version: 0.8.0
+
+// Push Service
+
+:unifiedpush-service: Push Notifications
+:push-ui: Unified Push Admin UI
+:push-notification: push notification
+:webapp: Solution Explorer
+
+:push-guide-link: {link-product-doc-home}/push-notifications.html
